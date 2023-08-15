@@ -10,25 +10,29 @@ import {
 import { primaryColor } from '../constants/colors';
 
 const  SplashScreen = ({navigation}) => {
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-          navigation.navigate('Intro');
-        }, 2000);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+     navigation.navigate('GetStarted');
+    }, 2000);
+
+    // Clear the timeout when the component unmounts to avoid potential issues
+    return () => clearTimeout(timeout);
+  }, [navigation]);
     
-        // Clear the timeout when the component unmounts to avoid potential issues
-        return () => clearTimeout(timeout);
-      }, [navigation]);
     return (
           <View style = {styles.sectionContainer}>
-            <Image source={require('../assets/images/logo.png')} style={{width: 200, height: 200}} />
+            <Image source={require('../assets/images/logo.png')} style={{width: '85%',  resizeMode:'contain',}} />
           </View>
     );
 }
 
 const styles = StyleSheet.create({
     sectionContainer: {
-        backgroundColor: primaryColor,
+        backgroundColor: 'white',
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
   });
   

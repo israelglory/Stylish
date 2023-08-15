@@ -1,19 +1,38 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import SplashScreen from "./src/screens/splashScreen";
+import IntroScreen from "./src/screens/introScreen";
+import GetStarted from "./src/screens/getStarted";
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import HomeScreen from "./src/screens/home";
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
     return (
-        <View style={styles.container}>
-        <Text style={styles.title}>Hello world!</Text>
-        </View>
+        <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="SplashScreen"
+            component={SplashScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Intro" component={IntroScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen
+            name="GetStarted"
+            component={GetStarted}
+            options={{ headerShown: false }}
+            />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
     },
     title: {
         fontSize: 24,
