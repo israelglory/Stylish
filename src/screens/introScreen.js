@@ -40,7 +40,7 @@ const IntroScreen = ({ navigation }) => {
             btntext={index == 0 ? "Next" : index == 1 ? "Next" : "Get Started" }
             onTap={() => {navigateNextIntro()}} 
             onBack={() => {onBack()}}
-            onSkip={() => {navigation.navigate('Home')}}
+            onSkip={() => {navigation.navigate('Login')}}
             index={index} image={index == 0 ? splash1 : index == 1 ? splash2 : splash3} />
         </View>
     );

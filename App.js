@@ -6,6 +6,8 @@ import GetStarted from "./src/screens/getStarted";
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from "./src/screens/home";
+import LoginScreen from "./src/screens/loginScreen";
+import SignUpScreen from "./src/screens/signUp";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +25,16 @@ const App = () => {
           <Stack.Screen
             name="GetStarted"
             component={GetStarted}
+            options={{ headerShown: false }}
+            />
+            <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+            />
+            <Stack.Screen
+            name="Signup"
+            component={SignUpScreen}
             options={{ headerShown: false }}
             />
         </Stack.Navigator>

@@ -12,8 +12,11 @@ import { splash1 } from '../constants/images';
 const SingleIntro = ({title, desc, btntext, onTap, index, image, onBack, onSkip }) => {
     return (
         <View style={styles.sectionContainer}>
+            <View style = {styles.skipSection}>
+                <Text style={styles.indexNumber}><Text style={styles.currentIndexNumber}>{index+1}</Text>/3</Text>
+                 <TouchableOpacity onPress={() => onSkip()}><Text style={styles.skip}>Skip</Text></TouchableOpacity> 
+            </View>
 
-            { index != 2 ? <TouchableOpacity onPress={() => onSkip()}><Text style={styles.skip}>Skip</Text></TouchableOpacity> : <View style={styles.skip}></View>}
 
             <Image source={image} style={styles.image} />
 
@@ -21,12 +24,14 @@ const SingleIntro = ({title, desc, btntext, onTap, index, image, onBack, onSkip 
 
             <Text style={styles.desc}>{desc}</Text>
 
+            <View style={{flexGrow: 1}}></View>
+
             
             <View style= {styles.buttonsRow}>
 
                 {index != 0 ?<TouchableOpacity title="Back" style = {styles.textButton} onPress={() => onBack()}>
-                    <Text style={{color:primaryColor, fontWeight: 'bold', fontSize: 20}}>Back</Text>
-                </TouchableOpacity> : <Text style={{color:'white', fontWeight: 'bold', fontSize: 20}}>Back</Text>}
+                    <Text style={{color:primaryColor, fontFamily: 'Montserrat-Bold', fontSize: 20}}>Back</Text>
+                </TouchableOpacity> : <Text style={{color:'white', fontFamily: 'Montserrat-Bold', fontSize: 20}}>Back</Text>}
 
                 <View style = {styles.dotRow}>
                     <View style={{
@@ -49,7 +54,7 @@ const SingleIntro = ({title, desc, btntext, onTap, index, image, onBack, onSkip 
                 </View>
 
                 <TouchableOpacity style = {styles.btn} onPress={() => onTap()}>
-                <Text style={styles.next}>Next</Text>
+                <Text style={styles.next}>{btntext}</Text>
                 </TouchableOpacity>
 
             </View>
@@ -72,9 +77,6 @@ const styles = StyleSheet.create({
         color: 'black',
         textAlign: 'right',
         fontFamily: 'Montserrat-SemiBold',
-        paddingRight: 30,
-        paddingTop: 30,
-        paddingBottom: 64,
     },
     image: {
         width: "90%",
@@ -110,8 +112,8 @@ const styles = StyleSheet.create({
       },
     next: {
         color:primaryColor, 
-        fontWeight: 'bold', 
         fontSize: 20,
+        fontFamily: 'Montserrat-Bold',
     },
       dotRow: {
         flexDirection: 'row',
@@ -143,7 +145,30 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginLeft: 50,
         marginRight: 30,
-    }
+        marginBottom: 30,
+    },
+    indexNumber: {
+        fontSize: 24,
+        color: 'black',
+        textAlign: 'left',
+        fontFamily: 'Montserrat-Regular',
+    },
+    currentIndexNumber: {
+        fontSize: 24,
+        color: 'black',
+        textAlign: 'left',
+        fontFamily: 'Montserrat-Bold',
+    },
+    skipSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        alignContent: 'center',
+        marginTop: 17,
+        marginLeft: 15,
+        marginRight: 15,
+        paddingBottom: 64,
+    },
 });
 
 export default SingleIntro;
