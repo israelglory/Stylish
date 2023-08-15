@@ -16,7 +16,7 @@ import LoginOption from "../components/loginSignUpOption";
 const LoginScreen = ({navigation}) => {
 
     const goToHome = () => {
-        navigation.navigate('Home');
+        navigation.navigate('TabStack');
     }
 
     return (
