@@ -8,3 +8,4 @@ export const email = require('../assets/images/User.png');
 export const apple = require('../assets/images/apple.png');
 export const facebook = require('../assets/images/facebook.png');
 export const google = require('../assets/images/google.png');
+export const homeBanner = require('../assets/images/homeBanner.png');
