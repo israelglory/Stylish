@@ -12,9 +12,13 @@ import TrendingProductBanner from "../components/trendingProductBanner";
 import SpecialOffer from "../components/specialOffer";
 import NewArrivalBanner from "../components/newArrivalBanner";
 import SponsoredBanner from "../components/sponsoredBanner";
+import SingleProduct from "../components/singleProduct";
+import { products, moreProducts } from "../constants/data";
+import DummySingleProduct from "../components/dummyProduct";
 
 const HomeScreen = ({navigation}) => {
     const images = [homeBanner, homeBanner, homeBanner];
+
 
     
     return(
@@ -54,15 +58,45 @@ const HomeScreen = ({navigation}) => {
             
             {/* Deal of the day Section*/}
             <DealOfTheDay />
+            <FlatList 
+                data={products}
+                keyExtractor={(item) => item.id}
+                horizontal
+                //numColumns={2}
+                //scrollEnabled={false}
+                style={styles.container}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item}) => (
+                   <SingleProduct item={item} />
+                )}
+            />
+
+            <View style={{height:20}}>
+
+            </View>
 
             {/* Special Offer Section */}
             <SpecialOffer />
 
             {/* Flat Heels Section */}
-                <Image source={mac} style={styles.mac} />
+            <Image source={mac} style={styles.mac} />
             
             {/* Trending Product Section */}
             <TrendingProductBanner  />
+            <FlatList 
+                data={moreProducts}
+                keyExtractor={(item) => item.id}
+                horizontal
+                //numColumns={2}
+                //scrollEnabled={false}
+                style={styles.container}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item}) => (
+                   <DummySingleProduct item={item} />
+                )}
+            />
+
+            <View style={{height:20}}></View>
 
             {/* New Arrival Section */}
             <NewArrivalBanner />
