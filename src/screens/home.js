@@ -6,7 +6,12 @@ import CustomButon from "../components/cutombutton";
 import CustomCategories from "../components/customCategories";
 import { categories } from "../constants/categories";
 import ImageCarousel from "../components/carousel";
-import { homeBanner } from "../constants/images";
+import { homeBanner, mac } from "../constants/images";
+import DealOfTheDay from "../components/dealOdTheDay";
+import TrendingProductBanner from "../components/trendingProductBanner";
+import SpecialOffer from "../components/specialOffer";
+import NewArrivalBanner from "../components/newArrivalBanner";
+import SponsoredBanner from "../components/sponsoredBanner";
 
 const HomeScreen = ({navigation}) => {
     const images = [homeBanner, homeBanner, homeBanner];
@@ -46,6 +51,25 @@ const HomeScreen = ({navigation}) => {
                 <ImageCarousel images={images} />
             </View> */}
 
+            
+            {/* Deal of the day Section*/}
+            <DealOfTheDay />
+
+            {/* Special Offer Section */}
+            <SpecialOffer />
+
+            {/* Flat Heels Section */}
+                <Image source={mac} style={styles.mac} />
+            
+            {/* Trending Product Section */}
+            <TrendingProductBanner  />
+
+            {/* New Arrival Section */}
+            <NewArrivalBanner />
+
+            {/* Sponserd */}
+
+            <SponsoredBanner />
 
         </ScrollView>
         
@@ -79,15 +103,21 @@ const styles = StyleSheet.create({
     },
     banner:{
         width: '95%',
-        height: 300,
+        height: 250,
         alignSelf: 'center',
         resizeMode: 'contain',
         marginTop: 20,
+        marginBottom: 20,
     },
     bannersection:{
         marginHorizontal: 16,
     },
-    
+    mac:{
+        width: '95%',
+        height: 250,
+        alignSelf: 'center',
+        resizeMode: 'contain',
+    }
 })
 
 export default HomeScreen;
