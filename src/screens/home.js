@@ -5,7 +5,6 @@ import SearchBox from "../components/searchBox";
 import CustomButon from "../components/cutombutton";
 import CustomCategories from "../components/customCategories";
 import { categories } from "../constants/categories";
-import ImageCarousel from "../components/carousel";
 import { homeBanner, mac } from "../constants/images";
 import DealOfTheDay from "../components/dealOdTheDay";
 import TrendingProductBanner from "../components/trendingProductBanner";
@@ -67,7 +66,10 @@ const HomeScreen = ({navigation}) => {
                 style={styles.container}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({item}) => (
-                   <SingleProduct item={item} />
+                <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', {item})}>
+                    <SingleProduct item={item} />
+                </TouchableOpacity>
+
                 )}
             />
 

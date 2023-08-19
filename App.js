@@ -9,6 +9,7 @@ import HomeScreen from "./src/screens/home";
 import LoginScreen from "./src/screens/loginScreen";
 import SignUpScreen from "./src/screens/signUp";
 import TabStack from "./src/stacks/tabStack";
+import ProductDetail from "./src/screens/productDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,8 +22,6 @@ const App = () => {
             component={SplashScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Intro" component={IntroScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="TabStack" component={TabStack} options={{ headerShown: false }} />
           <Stack.Screen
             name="GetStarted"
             component={GetStarted}
@@ -38,6 +37,10 @@ const App = () => {
             component={SignUpScreen}
             options={{ headerShown: false }}
             />
+
+          <Stack.Screen name="Intro" component={IntroScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="TabStack" component={TabStack} options={{ headerShown: false }} />
+          <Stack.Screen name="ProductDetail" component={ProductDetail} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     );
