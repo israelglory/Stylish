@@ -16,6 +16,7 @@ const  GetStarted = ({navigation}) => {
 
   const goToHome = () => {
     navigation.navigate('Intro');
+    //navigation.navigate('PaymentPage');
   }
 
     return (

@@ -56,7 +56,7 @@ const CheckOutDetails = ({navigation}) => {
 
             <View>
                 <Image source={{uri: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fHww&w=1000&q=80'}} style={styles.avatar}/>
-                <Icon name='camera' size={20} color={primaryColor} style={{position:'absolute', bottom:0, right:0, backgroundColor:'#fff', borderRadius:100, padding:5}} />
+                {/* <Icon name='camera' size={20} color={primaryColor} style={{position:'absolute', bottom:0, right:0, backgroundColor:'#fff', borderRadius:100, padding:5}} /> */}
             </View>
 
             <View style={{height:30}}></View>

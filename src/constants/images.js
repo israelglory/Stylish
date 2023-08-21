@@ -20,3 +20,7 @@ export const padLock = require('../assets/images/padlock.png');
 export const refund = require('../assets/images/refund.png');
 export const location = require('../assets/images/location.png');
 export const phone = require('../assets/images/phone.png');
+export const maestro = require('../assets/images/maestro.png');
+export const apple2 = require('../assets/images/apple2.png');
+export const paypal = require('../assets/images/paypal.png');
+export const visa = require('../assets/images/visa.png');

@@ -6,6 +6,7 @@ import {
     Image,
     TextInput,
     ScrollView,
+    TouchableOpacity
 } from 'react-native';
 import AppHeader from '../components/appHeader';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -51,6 +52,13 @@ const CheckOut = ({navigation}) => {
             <Text style={{...styles.title, marginLeft:20}}>Shopping List</Text>
             <View style={{height:10}}></View>
             <CheckOutItem />
+            <CheckOutItem />
+            <CheckOutItem />
+            <CheckOutItem />
+
+            <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('PaymentPage')}>
+                    <Text style={styles.btnText}>Save</Text>
+              </TouchableOpacity>
 
         </ScrollView>
     );
@@ -97,7 +105,26 @@ const styles = StyleSheet.create({
         fontSize:14,
         color:'#000',
     },
-
+    btn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
+        //width: "100%",
+        paddingVertical: 24,
+        //height: 60,
+        borderRadius: 10,
+        marginHorizontal: 24,
+        backgroundColor: primaryColor,
+        marginBottom: 24,
+      },
+      btnText: {
+        fontSize: 23,
+        lineHeight: 21,
+        letterSpacing: 0.25,
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'Montserrat-Bold',
+      },
 
 });
 
