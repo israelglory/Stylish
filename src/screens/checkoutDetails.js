@@ -18,8 +18,28 @@ import CheckOutImput from "../components/checkOutInput";
 
 const CheckOutDetails = ({navigation}) => {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [pincode, setPincode] = useState('');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [country, setCountry] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
+    const [accountHolderName, setAccountHolderName] = useState('');
+    const [ifscCode, setIfscCode] = useState('');
+
 
     const onEmailChange = (textValue) => setEmail(textValue);
+    const onPasswordChange = (textValue) => setPassword(textValue);
+    const onPincodeChange = (textValue) => setPincode(textValue);
+    const onAddressChange = (textValue) => setAddress(textValue);
+    const onCityChange = (textValue) => setCity(textValue);
+    const onStateChange = (textValue) => setState(textValue);
+    const onCountryChange = (textValue) => setCountry(textValue);
+    const onAccountNumberChange = (textValue) => setAccountNumber(textValue);
+    const onAccountHolderNameChange = (textValue) => setAccountHolderName(textValue);
+    const onIfscCodeChange = (textValue) => setIfscCode(textValue);
+
 
 
 
@@ -51,7 +71,7 @@ const CheckOutDetails = ({navigation}) => {
 
             {/* PassWord */}
             <Text style={styles.feildTitle}>Email Password</Text>
-            <CheckOutImput hint='Enter Password' onChange={onEmailChange} />
+            <CheckOutImput hint='Enter Password' onChange={onPasswordChange} />
 
 
             <View style={{height:36}}></View>
@@ -67,27 +87,24 @@ const CheckOutDetails = ({navigation}) => {
 
              {/* Pincode */}
              <Text style={styles.feildTitle}>Pincode</Text>
-            <CheckOutImput hint='Enter Pincode' onChange={onEmailChange} />
+            <CheckOutImput hint='Enter Pincode' onChange={onPincodeChange} />
 
              {/* Address */}
              <Text style={styles.feildTitle}>Address</Text>
-            <CheckOutImput hint='Enter Address' onChange={onEmailChange} />
+            <CheckOutImput hint='Enter Address' onChange={onAddressChange} />
 
              {/* City */}
              <Text style={styles.feildTitle}>City</Text>
-            <CheckOutImput hint='Enter City' onChange={onEmailChange} />
+            <CheckOutImput hint='Enter City' onChange={onCityChange} />
             
              {/* State */}
              <Text style={styles.feildTitle}>State</Text>
-            <CheckOutImput hint='Enter State' onChange={onEmailChange} />
+            <CheckOutImput hint='Enter State' onChange={onStateChange} />
 
              {/* Country */}
              <Text style={styles.feildTitle}>Country</Text>
-            <CheckOutImput hint='Enter Country' onChange={onEmailChange} />
+            <CheckOutImput hint='Enter Country' onChange={onCountryChange} />
 
-             {/* Country */}
-             <Text style={styles.feildTitle}>Country</Text>
-            <CheckOutImput hint='Enter Country' onChange={onEmailChange} />
 
              {/* Divider */}
              <View style={{height:1, backgroundColor:'#E5E5E5', marginHorizontal:20,}}></View>
@@ -100,15 +117,15 @@ const CheckOutDetails = ({navigation}) => {
 
              {/* Bank Account Number */}
              <Text style={styles.feildTitle}>Bank Account Number</Text>
-            <CheckOutImput hint='Enter Bank Account Number' onChange={onEmailChange} />
+            <CheckOutImput hint='Enter Bank Account Number' onChange={onAccountNumberChange} />
             
              {/* Account Holder’s Name */}
              <Text style={styles.feildTitle}>Account Holder’s Name</Text>
-            <CheckOutImput hint='Enter Account Holder’s Name' onChange={onEmailChange} />
+            <CheckOutImput hint='Enter Account Holder’s Name' onChange={onAccountHolderNameChange} />
 
              {/* IFSC Code */}
              <Text style={styles.feildTitle}>IFSC Code</Text>
-            <CheckOutImput hint='Enter IFSC Code' onChange={onEmailChange} />
+            <CheckOutImput hint='Enter IFSC Code' onChange={onIfscCodeChange} />
 
 
             <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('CheckOut')}>
