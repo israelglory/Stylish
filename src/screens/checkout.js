@@ -14,6 +14,7 @@ import Icon3 from 'react-native-vector-icons/MaterialIcons';
 
 import { primaryColor } from '../constants/colors';
 import {search, email} from '../constants/images';
+import CheckOutItem from "../components/checkoutItem";
 
 const CheckOut = ({navigation}) => {
     const onBack = () => {
@@ -48,6 +49,9 @@ const CheckOut = ({navigation}) => {
              {/* Shooping List */}
             <View style={{height:24}}></View>
             <Text style={{...styles.title, marginLeft:20}}>Shopping List</Text>
+            <View style={{height:10}}></View>
+            <CheckOutItem />
+
         </ScrollView>
     );
 }
@@ -67,7 +71,10 @@ const styles = StyleSheet.create({
     },
     addressBox:{
         width:'75%',
-        boxShadow:'0px 6px 14px -8px rgba(0, 0, 0, 0.25), 0px -4px 9px -7px rgba(0, 0, 0, 0.25)',
+        elevation: 5,
+        marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
         borderRadius:6,
         backgroundColor:'#fff',
     },
@@ -79,6 +86,10 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         marginRight:20,
+        elevation: 5,
+        marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
     },
     addressText: {
         marginLeft:20, 
@@ -86,6 +97,8 @@ const styles = StyleSheet.create({
         fontSize:14,
         color:'#000',
     },
+
+
 });
 
 export default CheckOut;
