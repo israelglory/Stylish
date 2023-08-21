@@ -10,12 +10,12 @@ import {
 import { primaryColor } from '../constants/colors';
 import {search, email} from '../constants/images';
 
-const CustomInput = ({title, hint, icon}) => {
+const CustomInput = ({hint, icon, onChange}) => {
     return (
         <View style = {{marginBottom:36}}>
             <View style={styles.inputBox}>
                 {icon != null ? <Image source={icon}  style = {styles.inputImg}/> : null}
-                <TextInput placeholder={hint} placeholderTextColor="grey" style={styles.textInput} />
+                <TextInput placeholder={hint} placeholderTextColor="grey" style={styles.textInput} onChangeText={()=>onChange()}/>
             </View>
         </View>
     );

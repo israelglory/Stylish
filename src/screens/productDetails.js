@@ -59,7 +59,7 @@ const ProductDetail = ({navigation, route}) => {
                 <TouchableOpacity  onPress={()=>navigation.navigate('CartStack')}>
                     <Image source={goToCart} style={styles.img} />
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={()=>navigation.navigate('Cart')}>
+                <TouchableOpacity  onPress={()=>navigation.navigate('CheckOut')}>
                     <Image source={buyNow} style={styles.img} />
                 </TouchableOpacity>
             </View>
