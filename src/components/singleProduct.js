@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 8,
         paddingBottom: 16,
         borderRadius: 10,
+        flexGrow: 1,
+        marginVertical: 8,
        
     },
     columnSide: {

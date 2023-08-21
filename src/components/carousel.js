@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   image: {
     width: Dimensions.get('window').width,
     height: 300,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   pagination: {
     flexDirection: 'row',

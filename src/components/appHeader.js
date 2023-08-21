@@ -23,7 +23,8 @@ const AppHeader = ({centerTitle, noCart, otherIcon, onBack}) => {
                 >
                 <Icon name="cart-outline" size={25}  color = '#000' />
                 </View>}
-                {otherIcon != null ? <Icon name={otherIcon} size={25}  color = '#000' /> : <View style={{width:20}}></View>}
+                {otherIcon != null ? <Icon name={otherIcon} size={25}  color = '#000' /> : null}
+                {!noCart && otherIcon == null && <View style={{width: 25}}></View>}
 
             </View>
         
