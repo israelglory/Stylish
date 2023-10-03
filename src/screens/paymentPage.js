@@ -10,14 +10,25 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import AppHeader from '../components/appHeader';
-import { maestro,visa,apple2,paypal } from "../constants/images";
+import { maestro,visa,apple2,paypal, paymentDone } from "../constants/images";
 
 import { primaryColor } from '../constants/colors';
 import {search, email} from '../constants/images';
 import PaymentMethod from "../components/paymentMethods";
+import Popup from "../components/popUp";
 
 const PaymentPage = ({navigation}) => {
     const [payment, setPayment] = useState(0);
+    const [isPopupVisible, setPopupVisible] = useState(false);
+
+  const showPopup = () => {
+    setPopupVisible(true);
+  };
+
+  const hidePopup = () => {
+    setPopupVisible(false);
+    navigation.navigate('Home')
+  };
 
     const paymentMethods = [
         {
@@ -53,7 +64,9 @@ const PaymentPage = ({navigation}) => {
             <AppHeader centerTitle='Payment' noCart={false} onBack={onBack}  />
             <View style={{height:20}}></View>
             {/* Divider */}
+
             <View style={{height:1, backgroundColor:'#C6C6C6'}}></View>
+            
 
             <View style={{height:17}}></View>
 
@@ -101,9 +114,16 @@ const PaymentPage = ({navigation}) => {
                 />
             
             
-            <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('PaymentPage')}>
+            <TouchableOpacity style = {styles.btn} onPress={showPopup}>
                     <Text style={styles.btnText}>Pay Now!</Text>
               </TouchableOpacity>
+
+
+
+              <Popup visible={isPopupVisible} onClose={hidePopup}>
+                <Image source={paymentDone} style={{width: 150, height: 150, resizeMode: 'contain', alignSelf: 'center'}} />
+                <Text style={{fontSize: 20, fontFamily: 'Montserrat-Bold', color: '#000', textAlign: 'center', marginTop: 20}}>Payment done successfully.</Text>
+            </Popup>
 
         </ScrollView>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView} from "react-native";
+import {View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView,ActivityIndicator} from "react-native";
 import ImageCarousel from "../components/carousel";
 import Icon from 'react-native-vector-icons/Ionicons';
 import AppHeader from "../components/appHeader";
@@ -7,18 +7,19 @@ import { primaryColor } from "../constants/colors";
 import { goToCart,buyNow,padLock,location,refund,phone } from "../constants/images";
 import CustomButon from "../components/cutombutton";
 import SingleProduct from "../components/singleProduct";
-import { products, moreProducts } from "../constants/data";
+//import { products, moreProducts } from "../constants/data";
+import useFetch from "../customHooks/useFetch";
+import Rating from "../components/rating";
 
 const ProductDetail = ({navigation, route}) => {
-
-    const { item } = route.params;
+    const { item, products } = route.params;
 
     const onBack = () => {
         navigation.goBack();
     };
+    const {data:product, error, isPending} = useFetch(`https://fakestoreapi.com/products/${item.id}`);
     
     const image = [
-            item.image,
         'https://cdn.pixabay.com/photo/2016/07/11/15/43/woman-1509956_1280.jpg',
         'https://cdn.pixabay.com/photo/2017/10/10/07/48/beach-2836300_1280.jpg'
     ]
@@ -28,68 +29,65 @@ const ProductDetail = ({navigation, route}) => {
             <View style={styles.container}>
             <AppHeader centerTitle='Product Detail' noCart={true} onBack={onBack}  />
             <View style={{height:20}}></View>
-            <ImageCarousel images={image} />
-
-            <Text style={styles.procuctTitleText}>{item.title}</Text>
-            <View style={styles.priceSection}>
-                <Text style={styles.fadedText}>₹{item.price + 100}</Text>
-                <Text style={styles.priceText}>₹{item.price}</Text>
-                <Text style={styles.offerText}>50% Off</Text>
-            </View>
-            <Text style={styles.title}>Product Details</Text>
-            <Text style={styles.procuctDescriptionText}>{item.description}.</Text>
-
-            <View style={styles.characterSection}>
-                <View style={styles.singleCharacter}>
-                    <Image source={location} style={styles.icon} />
-                    <Text style={styles.charcterText}>Nearest Store</Text>
-                </View>
-                <View style={styles.singleCharacter}>
-                    <Image source={padLock} style={styles.icon} />
-                    <Text style={styles.charcterText}>VIP</Text>
-                </View>
-                <View style={styles.singleCharacter}>
-                    <Image source={refund} style={styles.icon} />
-                    <Text style={styles.charcterText}>Return policy</Text>
-                </View>
-            </View>
-
-
-            <View style={styles.goToCartSection}>
-                <TouchableOpacity  onPress={()=>navigation.navigate('CartStack')}>
-                    <Image source={goToCart} style={styles.img} />
-                </TouchableOpacity>
-                <TouchableOpacity  onPress={()=>navigation.navigate('CheckOutDetail')}>
-                    <Image source={buyNow} style={styles.img} />
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.deliverySection}>
-                <Text style={styles.deliveryIn}>Delivery in</Text>
-                <Text style={styles.deliveryTime}>1 within Hour</Text>
-            </View>
-
-            <View style={styles.similarSection}>
-                <View style={styles.singleSimilar}>
-                    <Icon name="eye-outline" size={24} color = '#000' />
-                    <Text style={styles.similarText}>View Similar</Text>
-                </View>
-                <View style={styles.singleSimilar}>
-                    <Image source={phone} style={{height:24, width:24, resizeMode:'contain'}} />
-                    <Text style={styles.similarText}>Add to Compare</Text>
-                </View>
-            </View>
-
-            <Text style={styles.title}>Product Details</Text>
-            <View style={styles.relatedSection}>
-                <Text style={styles.title}>282+ Iteams </Text>
-                <View style = {{flexDirection: 'row'}}>
-                        <CustomButon text='Sort' icon={'sort'} />
-                        <View style={{width: 12}} />
-                        <CustomButon text='Sort' icon={'filter'} />
-                        <View style={{width: 20}} />
+            {isPending ? <ActivityIndicator size="large" color={primaryColor} /> : 
+            error != null ? <Text style={{fontSize: 18, color: 'red'}}>{error}</Text> :
+            
+            <>
+                    <ImageCarousel images={[product && product.image, ...image]} />
+                    <Text style={styles.procuctTitleText}>{product && product.title}</Text>
+                    <View style={styles.ratingContainer}>
+                        <Rating rating={product && product.rating.rate} />
+                        <Text style={styles.ratingText}>{product && product.rating.count} Ratings</Text>
                     </View>
-            </View>
+                    <View style={styles.priceSection}>
+                        <Text style={styles.fadedText}>₹{product && product.price + 100}</Text>
+                        <Text style={styles.priceText}>₹{product && product.price}</Text>
+                        <Text style={styles.offerText}>50% Off</Text>
+                    </View>
+                    <Text style={styles.title}>Product Details</Text>
+                    <Text style={styles.procuctDescriptionText}>{product && product.description}.</Text><View style={styles.characterSection}>
+                            <View style={styles.singleCharacter}>
+                                <Image source={location} style={styles.icon} />
+                                <Text style={styles.charcterText}>Nearest Store</Text>
+                            </View>
+                            <View style={styles.singleCharacter}>
+                                <Image source={padLock} style={styles.icon} />
+                                <Text style={styles.charcterText}>VIP</Text>
+                            </View>
+                            <View style={styles.singleCharacter}>
+                                <Image source={refund} style={styles.icon} />
+                                <Text style={styles.charcterText}>Return policy</Text>
+                            </View>
+                        </View><View style={styles.goToCartSection}>
+                            <TouchableOpacity onPress={() => navigation.navigate('CartStack')}>
+                                <Image source={goToCart} style={styles.img} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('CheckOutDetail')}>
+                                <Image source={buyNow} style={styles.img} />
+                            </TouchableOpacity>
+                        </View><View style={styles.deliverySection}>
+                            <Text style={styles.deliveryIn}>Delivery in</Text>
+                            <Text style={styles.deliveryTime}>1 within Hour</Text>
+                        </View><View style={styles.similarSection}>
+                            <View style={styles.singleSimilar}>
+                                <Icon name="eye-outline" size={24} color='#000' />
+                                <Text style={styles.similarText}>View Similar</Text>
+                            </View>
+                            <View style={styles.singleSimilar}>
+                                <Image source={phone} style={{ height: 24, width: 24, resizeMode: 'contain' }} />
+                                <Text style={styles.similarText}>Add to Compare</Text>
+                            </View>
+                        </View><Text style={styles.title}>Product Details</Text><View style={styles.relatedSection}>
+                            <Text style={styles.title}>282+ Iteams </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <CustomButon text='Sort' icon={'sort'} />
+                                <View style={{ width: 12 }} />
+                                <CustomButon text='Sort' icon={'filter'} />
+                                <View style={{ width: 20 }} />
+                            </View>
+                        </View>
+                    </>
+                    }
             <FlatList 
                 data={products}
                 keyExtractor={(item) => item.id}
@@ -183,6 +181,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginTop: 14,
     },
+    ratingText:{
+        marginLeft: 8, 
+        fontSize: 16, 
+        fontFamily: 'Montserrat-Regular', 
+        color: '#000',
+    },
     charcterText:{
         fontSize: 16, 
         fontFamily: 'Montserrat-Regular', 
@@ -222,6 +226,12 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginTop: 14,
     },
+    ratingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        marginTop: 8,
+      },
     deliveryIn:{
         fontSize: 16,
         fontFamily: 'Montserrat-SemiBold',

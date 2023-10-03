@@ -1,10 +1,13 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import {View, StyleSheet, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { newArrivals } from "../constants/images";
 import { primaryColor } from "../constants/colors";
+import Rating from "../components/rating";
+
 
 const SingleProduct = ({item}) => {
+
     return (
         <View style={styles.container}>
             <Image source={{uri: item.image}} style={styles.img} />
@@ -14,8 +17,11 @@ const SingleProduct = ({item}) => {
             </View>
             <Text style={styles.priceText}>₹{item.price}</Text>
             <View style={styles.row}>
-                <Text style={styles.viewAll}>{item.rating.count}</Text>
-            </View>
+                        <Rating rating={item.rating.rate} />
+                        <Text style={styles.viewAll}>{item.rating.count} Ratings</Text>
+                    </View>
+            
+
         </View>
     )
 }
@@ -58,8 +64,9 @@ const styles = StyleSheet.create({
         maxWidth: 190,
     },
     viewAll: {
-        fontSize: 15,
-        fontFamily: 'Montserrat-SemiBold',
+        marginLeft: 8, 
+        fontSize: 16, 
+        fontFamily: 'Montserrat-Regular', 
         color: '#000',
     },
     img:{
@@ -73,7 +80,7 @@ const styles = StyleSheet.create({
     },
     row:{
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        //justifyContent: 'space-between',
         alignItems: 'center',
         alignContent: 'center',
         width: '100%',

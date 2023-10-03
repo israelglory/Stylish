@@ -51,8 +51,13 @@ const CheckOut = ({navigation}) => {
             <View style={{height:24}}></View>
             <Text style={{...styles.title, marginLeft:20}}>Shopping List</Text>
             <View style={{height:10}}></View>
-            <CheckOutItem />
-            <CheckOutItem />
+            <TouchableOpacity onPress={() => navigation.navigate('ShoppingBag')}>
+                <CheckOutItem />
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => navigation.navigate('ShoppingBag')}>
+                <CheckOutItem />
+            </TouchableOpacity>
             <CheckOutItem />
             <CheckOutItem />
 
@@ -67,6 +72,7 @@ const CheckOut = ({navigation}) => {
 const styles = StyleSheet.create({
     container:{
         flex:1,
+        backgroundColor: '#fff'
     },
     row:{
         flexDirection:'row',
@@ -110,7 +116,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         //width: "100%",
-        paddingVertical: 24,
+        paddingVertical: 16,
         //height: 60,
         borderRadius: 10,
         marginHorizontal: 24,

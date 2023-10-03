@@ -1,5 +1,5 @@
-import React from "react";
-import{View,Text,StyleSheet,TouchableOpacity, ScrollView, FlatList, Image} from "react-native";
+import React,{useState, useEffect} from "react";
+import{View,Text,StyleSheet,TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator} from "react-native";
 import CustomHeader from "../components/customAppBar";
 import SearchBox from "../components/searchBox";
 import CustomButon from "../components/cutombutton";
@@ -12,12 +12,14 @@ import SpecialOffer from "../components/specialOffer";
 import NewArrivalBanner from "../components/newArrivalBanner";
 import SponsoredBanner from "../components/sponsoredBanner";
 import SingleProduct from "../components/singleProduct";
-import { products, moreProducts } from "../constants/data";
+import {  moreProducts } from "../constants/data";
 import DummySingleProduct from "../components/dummyProduct";
+import useFetch from "../customHooks/useFetch";
+import { primaryColor } from "../constants/colors";
 
 const HomeScreen = ({navigation}) => {
     const images = [homeBanner, homeBanner, homeBanner];
-
+    const {data:products, error, isPending} = useFetch("https://fakestoreapi.com/products");
 
     
     return(
@@ -57,7 +59,7 @@ const HomeScreen = ({navigation}) => {
             
             {/* Deal of the day Section*/}
             <DealOfTheDay />
-            <FlatList 
+            {isPending ? <ActivityIndicator size="large" color={primaryColor}/> : error != null ? <Text style={{fontSize: 18, color: 'red'}}>{error}</Text> : <FlatList 
                 data={products}
                 keyExtractor={(item) => item.id}
                 horizontal
@@ -66,12 +68,12 @@ const HomeScreen = ({navigation}) => {
                 style={styles.container}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({item}) => (
-                <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', {item})}>
+                <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', {item, products})}>
                     <SingleProduct item={item} />
                 </TouchableOpacity>
 
                 )}
-            />
+            />}
 
             <View style={{height:20}}>
 

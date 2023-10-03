@@ -8,9 +8,11 @@ import {
     ScrollView,
 
 } from 'react-native';
+//import Rating from "../components/rating";
 
 import { primaryColor } from '../constants/colors';
 import {search, email} from '../constants/images';
+import Rating from "./rating";
 
 const CheckOutItem = ({}) => {
     return (
@@ -31,6 +33,10 @@ const CheckOutItem = ({}) => {
                         <View style={styles.variationBox}>
                             <Text style={styles.variationText}>Red</Text>
                         </View>
+                    </View>
+                    <View style={styles.ratingContainer}>
+                        <Text style={styles.ratingText}>4.7</Text>
+                        <Rating rating={4.7} />                
                     </View>
                     <View style={{height:10}}></View>
                     
@@ -77,6 +83,17 @@ const styles = StyleSheet.create({
     row:{
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    ratingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 8,
+      },
+      ratingText:{
+        marginRight: 8, 
+        fontSize: 16, 
+        fontFamily: 'Montserrat-Regular', 
+        color: '#000',
     },
     title: {
         fontSize: 16,
