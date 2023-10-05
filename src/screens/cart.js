@@ -17,36 +17,12 @@ import Icon3 from 'react-native-vector-icons/MaterialIcons';
 import { primaryColor } from '../constants/colors';
 import CheckOutItem from "../components/checkoutItem";
 import AppHeader from "../components/appHeader";
+import { emptyCart } from "../constants/images";
 
 const CartScreen = ({navigation}) => {
-    const loadCartData = async () => {
-        const dispatch = useDispatch(); // Get the dispatch function
-      
-        try {
-          const cartData = await AsyncStorage.getItem('cart');
-          if (cartData !== null) {
-            // Parse the stored data and directly set it in the Redux store
-            dispatch(setCart(JSON.parse(cartData)));
-          }
-        } catch (error) {
-          console.error('Error loading cart data:', error);
-        }
-      };
 
-    useEffect(() => {
-        loadCartData();
-      }
-    , []);
-
-
-    const onBack = () => {
-        navigation.goBack();
-    };
-    const { handleRemoveFromCart, handleIncrementQuantity, handleDecrementQuantity } = useCart();
     const products = useSelector((state) => state.cartReducer.items);
     const cartTotal = useSelector((state) => state.cartReducer.total);
-    console.log(products.length)
-    console.log(cartTotal)
     return (
         <ScrollView style={styles.container}>
             <View style={styles.header}>
@@ -79,39 +55,46 @@ const CartScreen = ({navigation}) => {
             <View style={{height:24}}></View>
             <Text style={{...styles.title, marginLeft:20}}>Shopping List</Text>
             <View style={{height:10}}></View>
-            {/* <TouchableOpacity onPress={() => navigation.navigate('ShoppingBag')}>
-                <CheckOutItem />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('ShoppingBag')}>
-                <CheckOutItem />
-            </TouchableOpacity>
-            <CheckOutItem />
-            <CheckOutItem /> */}
-
-            <FlatList 
-                data={products}
-                keyExtractor={(product) => product.id}
-                
-                //numColumns={2}
-                scrollEnabled={false}
-                style={styles.container}
-                
-                renderItem={({item}) => (
-                     <CheckOutItem item={item} />
-                )}
-            />
-
-        <View style={{...styles.row, ...styles.appHorizontalMargin, ...styles.spaceBetween}}>
+            {
+                products.length === 0 ? 
+                <View style={{flexGrow:1, alignContent:'center', alignItems: 'center'}}>
+                    <Image source={emptyCart} style={styles.img} />
+                    <Text style={styles.text}>
+                        No items in your wishlist
+                    </Text>
+                </View> 
+                :
+                <>
+                    <FlatList 
+                        data={products}
+                        keyExtractor={(product) => product.id}
+                        
+                        //numColumns={2}
+                        scrollEnabled={false}
+                        style={styles.container}
+                        
+                        renderItem={({item}) => (
+                            <CheckOutItem item={item} />
+                        )}
+                    />
+                    <View style={{...styles.row, ...styles.appHorizontalMargin, ...styles.spaceBetween}}>
             
-            <View>
-            <Text numberOfLines={1} style={styles.title}>${cartTotal.toFixed(2)}</Text>
-            <Text numberOfLines={1} style={styles.pinkText}>View Details</Text>
-            </View>
-            <View style={{width:12}}></View>
-            <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('CheckOutDetail', {amount:cartTotal})}>
-                    <Text style={styles.btnText}>Proceed to Payment</Text>
-              </TouchableOpacity>
-        </View>
+                            <View>
+                            <Text numberOfLines={1} style={styles.title}>${cartTotal.toFixed(2)}</Text>
+                            <Text numberOfLines={1} style={styles.pinkText}>View Details</Text>
+                            </View>
+                            <View style={{width:12}}></View>
+                            <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('CheckOutDetail', {amount:cartTotal})}>
+                                    <Text style={styles.btnText}>Proceed to Payment</Text>
+                            </TouchableOpacity>
+                    </View>
+                </>
+                
+            }
+            
+            
+
+        
 
         </ScrollView>
     );
@@ -208,6 +191,17 @@ const styles = StyleSheet.create({
     appVerticalMargin:{
         marginVertical:10,
     },
+    img:{
+        width: 400, 
+        height: 400,
+        resizeMode: 'contain',
+    },
+    text:{
+        fontSize: 25,
+        fontFamily:'Montserrat-Bold',
+        color:'grey',
+
+    }
 });
 
 export default CartScreen;

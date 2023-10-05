@@ -68,7 +68,7 @@ const HomeScreen = ({navigation}) => {
                 style={styles.container}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({item}) => (
-                <TouchableOpacity onPress={() => navigation.navigate('ProductDetail', {item, products})}>
+                <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate('ProductDetail', {item})}>
                     <SingleProduct item={item} />
                 </TouchableOpacity>
 

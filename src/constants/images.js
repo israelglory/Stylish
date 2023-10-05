@@ -26,3 +26,4 @@ export const paypal = require('../assets/images/paypal.png');
 export const visa = require('../assets/images/visa.png');
 export const couponIcon = require('../assets/images/coupon.png');
 export const paymentDone = require('../assets/images/paymentdone.png');
+export const emptyCart = require('../assets/images/empty_cart.png');

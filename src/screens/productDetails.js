@@ -2,7 +2,7 @@ import React from "react";
 import {View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView,ActivityIndicator, ToastAndroid} from "react-native";
 import ImageCarousel from "../components/carousel";
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import AppHeader from "../components/appHeader";
 import { primaryColor } from "../constants/colors";
 import { goToCart,buyNow,padLock,location,refund,phone } from "../constants/images";
@@ -12,15 +12,18 @@ import SingleProduct from "../components/singleProduct";
 import useFetch from "../customHooks/useFetch";
 import Rating from "../components/rating";
 import { useCart } from "../cartUtil/cartUtil";
+import { addToWishList } from "../states/actions/action";
 
 
 const ProductDetail = ({navigation, route}) => {
-    const { item, products } = route.params;
-    const cart = useSelector((state) => state.cartReducer);
+    const dispatch = useDispatch();
+    const { item } = route.params;
+    //const cart = useSelector((state) => state.cartReducer);
     const showAddedToast = (message) => {
         ToastAndroid.show(message, ToastAndroid.SHORT);
       };
-
+    const wishListproducts = useSelector((state) => state.wishlistReducer.items);
+    const existingItem = wishListproducts.find((theproduct) => theproduct.id === item.id);
     
     const { handleRemoveFromCart, handleIncrementQuantity, handleDecrementQuantity } = useCart();
     //const cartTotal = useSelector((state) => state.ca.cartTotal);
@@ -33,11 +36,17 @@ const ProductDetail = ({navigation, route}) => {
         showAddedToast('Added to cart');
     }
     const {data:product, error, isPending} = useFetch(`https://fakestoreapi.com/products/${item.id}`);
+    const {data:products, error: productsError, isPending:productsLoading} = useFetch("https://fakestoreapi.com/products");
     
     const image = [
         'https://cdn.pixabay.com/photo/2016/07/11/15/43/woman-1509956_1280.jpg',
         'https://cdn.pixabay.com/photo/2017/10/10/07/48/beach-2836300_1280.jpg'
     ]
+
+    const addtoWishList = (data) => {
+        dispatch(addToWishList(data));
+    }
+
     return (
 
         <ScrollView>
@@ -46,10 +55,14 @@ const ProductDetail = ({navigation, route}) => {
             <View style={{height:20}}></View>
             {isPending ? <ActivityIndicator size="large" color={primaryColor} /> : 
             error != null ? <Text style={{fontSize: 18, color: 'red'}}>{error}</Text> :
-            
-            <>
+                <>
                     <ImageCarousel images={[product && product.image, ...image]} />
-                    <Text style={styles.procuctTitleText}>{product && product.title}</Text>
+                    <View style={styles.productTitlerow}>
+                        <Text style={styles.procuctTitleText}>{product && product.title}</Text>
+                        <TouchableOpacity onPress={() => addtoWishList(product)}>
+                            <Icon name={existingItem? 'heart' :'heart-outline'} size={24} color={existingItem ? primaryColor:'#000'} />
+                        </TouchableOpacity>
+                    </View>
                     <View style={styles.ratingContainer}>
                         <Rating rating={product && product.rating.rate} />
                         <Text style={styles.ratingText}>{product && product.rating.count} Ratings</Text>
@@ -120,7 +133,10 @@ const ProductDetail = ({navigation, route}) => {
                         <View style={{ width: 20 }} />
                     </View>
             </View>
-            <FlatList 
+            {
+                productsLoading ? <ActivityIndicator size="large" color={primaryColor} /> : 
+            error != null ? <Text style={{fontSize: 18, color: 'red'}}>{error}</Text> :
+             <FlatList 
                 data={products}
                 keyExtractor={(item) => item.id}
                 //horizontal
@@ -129,9 +145,12 @@ const ProductDetail = ({navigation, route}) => {
                 style={styles.container}
                // showsHorizontalScrollIndicator={false}
                 renderItem={({item}) => (
-                   <SingleProduct item={item} />
+                    <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate('ProductDetail', {item})}>
+                        <SingleProduct item={item} />
+                    </TouchableOpacity>
                 )}
             />
+            }
         </View>
         </ScrollView>
         
@@ -141,7 +160,7 @@ const ProductDetail = ({navigation, route}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F9F9F9",
+        backgroundColor: "#fff",
     },
     header: {
         flexDirection: "row",
@@ -163,8 +182,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-SemiBold',
         fontSize: 20,
         color: '#000',
-        paddingHorizontal: 20,
-        marginTop: 34,
+       // paddingHorizontal: 20,
+       // marginTop: 34,
     },
     procuctDescriptionText:{
         fontFamily: 'Montserrat-Regular',
@@ -295,6 +314,7 @@ const styles = StyleSheet.create({
         borderColor: '#D9D9D9',
         marginRight: 8,
         backgroundColor: '#fff',
+        //elevation: 2,
     },
     similarText:{
         fontSize: 16,
@@ -329,6 +349,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white',
         fontFamily: 'Montserrat-Bold',
+    },
+    productTitlerow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        alignContent: 'center',
+        paddingHorizontal: 20,
+        //marginTop: 14,
+        marginTop: 34,
+
     },
     
 });

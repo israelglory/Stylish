@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         flexGrow: 1,
         marginVertical: 8,
+        elevation: 2,
        
     },
     columnSide: {

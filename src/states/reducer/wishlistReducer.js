@@ -12,7 +12,7 @@ const initialState = {
         const newItem = action.payload;
         const existingItem = state.items.find((item) => item.id === newItem.id);
         if (existingItem) {
-          const updatedItems = state.items.filter((item) => item.id === newItem.id);
+          const updatedItems = state.items.filter((item) => item.id != newItem.id);
           return { 
             ...state, 
             items: updatedItems,
