@@ -1,7 +1,8 @@
 import React from "react";
-import {View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView,ActivityIndicator} from "react-native";
+import {View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView,ActivityIndicator, ToastAndroid} from "react-native";
 import ImageCarousel from "../components/carousel";
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useSelector } from 'react-redux';
 import AppHeader from "../components/appHeader";
 import { primaryColor } from "../constants/colors";
 import { goToCart,buyNow,padLock,location,refund,phone } from "../constants/images";
@@ -10,13 +11,27 @@ import SingleProduct from "../components/singleProduct";
 //import { products, moreProducts } from "../constants/data";
 import useFetch from "../customHooks/useFetch";
 import Rating from "../components/rating";
+import { useCart } from "../cartUtil/cartUtil";
+
 
 const ProductDetail = ({navigation, route}) => {
     const { item, products } = route.params;
+    const cart = useSelector((state) => state.cartReducer);
+    const showAddedToast = (message) => {
+        ToastAndroid.show(message, ToastAndroid.SHORT);
+      };
+
+    
+    const { handleRemoveFromCart, handleIncrementQuantity, handleDecrementQuantity } = useCart();
+    //const cartTotal = useSelector((state) => state.ca.cartTotal);
 
     const onBack = () => {
         navigation.goBack();
     };
+    const handleAddToCart = (item) => {
+        handleIncrementQuantity(item);
+        showAddedToast('Added to cart');
+    }
     const {data:product, error, isPending} = useFetch(`https://fakestoreapi.com/products/${item.id}`);
     
     const image = [
@@ -27,7 +42,7 @@ const ProductDetail = ({navigation, route}) => {
 
         <ScrollView>
             <View style={styles.container}>
-            <AppHeader centerTitle='Product Detail' noCart={true} onBack={onBack}  />
+            <AppHeader centerTitle='Product Detail' noCart={true} onBack={onBack} navigation={navigation}  />
             <View style={{height:20}}></View>
             {isPending ? <ActivityIndicator size="large" color={primaryColor} /> : 
             error != null ? <Text style={{fontSize: 18, color: 'red'}}>{error}</Text> :
@@ -58,17 +73,30 @@ const ProductDetail = ({navigation, route}) => {
                                 <Image source={refund} style={styles.icon} />
                                 <Text style={styles.charcterText}>Return policy</Text>
                             </View>
-                        </View><View style={styles.goToCartSection}>
+                        </View>
+
+                        <TouchableOpacity style = {styles.btn} onPress={() => handleAddToCart(product)}>
+                                             <Text style={styles.btnText}>Add to Cart</Text>
+                                    </TouchableOpacity>
+                        
+                        <View style={styles.goToCartSection}>
                             <TouchableOpacity onPress={() => navigation.navigate('CartStack')}>
                                 <Image source={goToCart} style={styles.img} />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => navigation.navigate('CheckOutDetail')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('ShoppingBag', {product})}>
                                 <Image source={buyNow} style={styles.img} />
                             </TouchableOpacity>
-                        </View><View style={styles.deliverySection}>
+                        </View>
+                        
+                        {/*Delivery Section*/}
+                        <View style={styles.deliverySection}>
                             <Text style={styles.deliveryIn}>Delivery in</Text>
                             <Text style={styles.deliveryTime}>1 within Hour</Text>
-                        </View><View style={styles.similarSection}>
+                        </View>
+                                                
+                        
+                        
+                        <View style={styles.similarSection}>
                             <View style={styles.singleSimilar}>
                                 <Icon name="eye-outline" size={24} color='#000' />
                                 <Text style={styles.similarText}>View Similar</Text>
@@ -77,17 +105,21 @@ const ProductDetail = ({navigation, route}) => {
                                 <Image source={phone} style={{ height: 24, width: 24, resizeMode: 'contain' }} />
                                 <Text style={styles.similarText}>Add to Compare</Text>
                             </View>
-                        </View><Text style={styles.title}>Product Details</Text><View style={styles.relatedSection}>
-                            <Text style={styles.title}>282+ Iteams </Text>
-                            <View style={{ flexDirection: 'row' }}>
-                                <CustomButon text='Sort' icon={'sort'} />
-                                <View style={{ width: 12 }} />
-                                <CustomButon text='Sort' icon={'filter'} />
-                                <View style={{ width: 20 }} />
-                            </View>
                         </View>
+                        
+                        
                     </>
                     }
+            <Text style={styles.title}>Similar Products</Text>
+            <View style={styles.relatedSection}>
+                    <Text style={styles.title}>282+ Iteams </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <CustomButon text='Sort' icon={'sort'} />
+                        <View style={{ width: 12 }} />
+                        <CustomButon text='Sort' icon={'filter'} />
+                        <View style={{ width: 20 }} />
+                    </View>
+            </View>
             <FlatList 
                 data={products}
                 keyExtractor={(item) => item.id}
@@ -278,7 +310,27 @@ const styles = StyleSheet.create({
         //paddingHorizontal: 20,
         //marginTop: 14,
     },
-
+    btn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
+        //width: "100%",
+        paddingVertical: 16,
+        //height: 60,
+        borderRadius: 10,
+        marginHorizontal: 24,
+        backgroundColor: primaryColor,
+        marginTop: 24,
+    },
+    btnText: {
+        fontSize: 23,
+        lineHeight: 21,
+        letterSpacing: 0.25,
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'Montserrat-Bold',
+    },
+    
 });
 
 export default ProductDetail;

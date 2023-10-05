@@ -62,7 +62,7 @@ const CheckOut = ({navigation}) => {
             <CheckOutItem />
 
             <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('PaymentPage')}>
-                    <Text style={styles.btnText}>Save</Text>
+                    <Text style={styles.btnText}>Proceed to Payment</Text>
               </TouchableOpacity>
 
         </ScrollView>

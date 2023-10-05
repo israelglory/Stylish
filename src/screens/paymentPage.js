@@ -17,8 +17,9 @@ import {search, email} from '../constants/images';
 import PaymentMethod from "../components/paymentMethods";
 import Popup from "../components/popUp";
 
-const PaymentPage = ({navigation}) => {
+const PaymentPage = ({navigation, route}) => {
     const [payment, setPayment] = useState(0);
+    const { amount } = route.params;
     const [isPopupVisible, setPopupVisible] = useState(false);
 
   const showPopup = () => {
@@ -72,19 +73,19 @@ const PaymentPage = ({navigation}) => {
 
             <View style={[styles.horizontalPadding, styles.row]}>
                 <Text style={styles.fadedText}>Order</Text>
-                <Text style={styles.fadedText}>$ 7000</Text>
+                <Text style={styles.fadedText}>${amount.toFixed(2)}</Text>
             </View>
             <View style={{height:17}}></View>
             <View style={[styles.horizontalPadding, styles.row]}>
                 <Text style={styles.fadedText}>Shipping</Text>
-                <Text style={styles.fadedText}>$ 30</Text>
+                <Text style={styles.fadedText}>$ 30.00</Text>
             </View>
 
             <View style={{height:17}}></View>
 
             <View style={[styles.horizontalPadding, styles.row]}>
                 <Text style={styles.title}>Total</Text>
-                <Text style={styles.title}>$ 7030</Text>
+                <Text style={styles.title}>${(amount+30).toFixed(2)}</Text>
             </View>
 
             <View style={{height:22}}></View>

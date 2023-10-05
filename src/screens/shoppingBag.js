@@ -15,17 +15,21 @@ import { primaryColor } from '../constants/colors';
 import {couponIcon,} from '../constants/images';
 
 
-const ShoppingBag = ({navigation}) => {
+const ShoppingBag = ({navigation, route}) => {
+    const { product } = route.params;
     const [quantity, setQuantity] = useState(1);
+    const [amount, setAmount] = useState(product.price);
     const onBack = () => {
         navigation.goBack();
     };
     const increment = () => {
         setQuantity(quantity+1);
+        setAmount(amount + product.price)
     }
     const decrement = () => {
         if(quantity>1){
             setQuantity(quantity-1);
+            setAmount(amount - product.price)
         }
     }
     return (
@@ -33,18 +37,21 @@ const ShoppingBag = ({navigation}) => {
         <AppHeader centerTitle='Shopping Bag' noCart={false} onBack={onBack} otherIcon={'heart-outline'}/>
 
         <View style={{height:38}}></View>
-        <View style={styles.nrow}>
-        <Image source={{uri:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg'}} style={styles.image} />
-            <View style={{width:12}}></View>
-            <View>
-                <Text numberOfLines={1} style={styles.title}>Women’s Casual Wear</Text>
+        <View style={styles.topRow}>
+        <Image source={{uri:product.image}} style={styles.image} />
+            
+            <View style={styles.marginRightApp}>
+                <Text  style={{...styles.flexAndWrap, marginEnd:150}}>{product.title}</Text>
                 <View style={{height:8}}></View>
-                <Text numberOfLines={2} style={styles.subtitle} ellipsizeMode="tail">Checked Single-Breasted Blazer</Text>
+                <Text numberOfLines={2} style={{...styles.subtitle,marginEnd:150}} ellipsizeMode="tail">{product.description}</Text>
                 <View style={{height:8}}></View>
+
                 <View style={styles.nrow}>
-                <TouchableOpacity style = {styles.iconButton} onPress={() => {increment()}}>
-                    <Icon name='chevron-small-up' size={20} color='#fff' />
-              </TouchableOpacity>
+
+                    <TouchableOpacity style = {styles.iconButton} onPress={() => {increment()}}>
+                        <Icon name='chevron-small-up' size={20} color='#fff' />
+                    </TouchableOpacity>
+
                     <View style={{width:12}}></View>
                     <Text style={styles.subtitle}>{quantity}</Text>
                     <View style={{width:12}}></View>
@@ -53,7 +60,7 @@ const ShoppingBag = ({navigation}) => {
               </TouchableOpacity>
                 </View>
                 <View style={{height:12}}></View>    
-                <Text style={styles.subtitle}>Delivery by  <Text style={styles.title}>10 May 2XXX </Text></Text>
+                <Text style={styles.subtitle}>Delivery by  <Text style={styles.title}>10 Dec. 2023 </Text></Text>
             </View>
         </View>
 
@@ -77,7 +84,7 @@ const ShoppingBag = ({navigation}) => {
         <View style={{height:26}}></View>
         <View style={{...styles.nrow, ...styles.appHorizontalMargin, ...styles.spaceBetween}}>
             <Text numberOfLines={1} style={styles.subtitle}>Order Amounts</Text>
-            <Text numberOfLines={1} style={styles.title}>$ 200.00</Text>
+            <Text numberOfLines={1} style={styles.title}>${amount.toFixed(2)}</Text>
         </View>
         <View style={{height:12}}></View>
         <View style={{...styles.nrow, ...styles.appHorizontalMargin, ...styles.spaceBetween}}>
@@ -97,7 +104,7 @@ const ShoppingBag = ({navigation}) => {
 
         <View style={{...styles.nrow, ...styles.appHorizontalMargin, ...styles.spaceBetween}}>
             <Text numberOfLines={1} style={styles.title}>Order Total</Text>
-            <Text numberOfLines={1} style={styles.title}>$ 200.00</Text>
+            <Text numberOfLines={1} style={styles.title}>${amount.toFixed(2)}</Text>
         </View>
         <View style={{height:12}}></View>
         <View style={{...styles.nrow, ...styles.appHorizontalMargin,}}>
@@ -111,11 +118,11 @@ const ShoppingBag = ({navigation}) => {
         <View style={{...styles.nrow, ...styles.appHorizontalMargin, ...styles.spaceBetween}}>
             
             <View>
-            <Text numberOfLines={1} style={styles.title}>$ 200.00</Text>
+            <Text numberOfLines={1} style={styles.title}>${amount.toFixed(2)}</Text>
             <Text numberOfLines={1} style={styles.pinkText}>View Details</Text>
             </View>
             <View style={{width:12}}></View>
-            <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('PaymentPage')}>
+            <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('CheckOutDetail', {amount})}>
                     <Text style={styles.btnText}>Proceed to Payment</Text>
               </TouchableOpacity>
         </View>
@@ -127,11 +134,20 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         backgroundColor:'#fff',
+        
     },
+    topRow:{
+        flexDirection:'row',
+        flex:1,
+        alignItems:'center',
+        marginHorizontal:20,
+    },
+    
     nrow:{
         flexDirection:'row',
         //justifyContent:'space-between',
         alignItems:'center',
+        flex:1,
         //paddingHorizontal:20,
         //paddingVertical:10,
     },
@@ -144,13 +160,26 @@ const styles = StyleSheet.create({
     appVerticalMargin:{
         marginVertical:10,
     },
+    marginRightApp:{
+        marginRight:20,
+        flexDirection:'column',
+    },
     image: {
         width: 160,
         height: 160,
         resizeMode: 'contain',
         marginRight: 10,
+
     },
     title:{
+        fontSize:18,
+        fontFamily:'Montserrat-SemiBold',
+        color:'#000',
+    },
+    flexAndWrap:{
+
+        flexWrap:'wrap',
+
         fontSize:18,
         fontFamily:'Montserrat-SemiBold',
         color:'#000',

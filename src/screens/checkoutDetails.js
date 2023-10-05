@@ -16,7 +16,8 @@ import {search, email} from '../constants/images';
 import CustomInput from "../components/customInput";
 import CheckOutImput from "../components/checkOutInput";
 
-const CheckOutDetails = ({navigation}) => {
+const CheckOutDetails = ({navigation, route}) => {
+    const { amount } = route.params;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [pincode, setPincode] = useState('');
@@ -128,8 +129,8 @@ const CheckOutDetails = ({navigation}) => {
             <CheckOutImput hint='Enter IFSC Code' onChange={onIfscCodeChange} />
 
 
-            <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('CheckOut')}>
-                    <Text style={styles.btnText}>Save</Text>
+            <TouchableOpacity style = {styles.btn} onPress={() => navigation.navigate('PaymentPage', {amount})}>
+                    <Text style={styles.btnText}>Proceed to payment</Text>
               </TouchableOpacity>
 
         </ScrollView>
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         //width: "100%",
-        paddingVertical: 24,
+        paddingVertical: 16,
         //height: 60,
         borderRadius: 10,
         marginHorizontal: 24,

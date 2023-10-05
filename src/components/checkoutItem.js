@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import {
     StyleSheet,
     View,
@@ -6,22 +6,46 @@ import {
     Image,
     TextInput,
     ScrollView,
-
+    TouchableOpacity,
+    ToastAndroid
 } from 'react-native';
 //import Rating from "../components/rating";
 
 import { primaryColor } from '../constants/colors';
 import {search, email} from '../constants/images';
+import Icon from 'react-native-vector-icons/Entypo';
 import Rating from "./rating";
+import { useCart } from "../cartUtil/cartUtil";
 
-const CheckOutItem = ({}) => {
+const CheckOutItem = ({item}) => {
+    const [quantity, setQuantity] = useState(item.quantity);
+    const [totalAmount, setTotalAmount] = useState(item.price);
+    const amount= item.price;
+    const showAddedToast = (message) => {
+        ToastAndroid.show(message, ToastAndroid.SHORT);
+      };
+
+    const { handleRemoveFromCart, handleIncrementQuantity, handleDecrementQuantity } = useCart();
+    //console.log(item);
+    const increment = () => {
+        handleIncrementQuantity(item);
+        setQuantity(item.quantity);
+        setTotalAmount(amount*item.quantity);
+        showAddedToast('Added to cart');
+    }
+    const decrement = () => {
+        handleDecrementQuantity(item.id);
+        setQuantity(item.quantity);
+        setTotalAmount(amount*item.quantity);
+        showAddedToast('Removed to cart');
+    }
     return (
         <View style={styles.container}>
             <View style={styles.row}>
-                <Image source={{uri:'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg'}} style={styles.image} />
+                <Image source={{uri:item.image}} style={styles.image} />
 
                 <View style={{flexGrow: 1}}>
-                    <Text style={styles.title}>Women’s Casual Wear</Text>
+                    <Text style={styles.productTitle}>{item.title}</Text>
 
                     <View style={{height:8}}></View>
 
@@ -34,6 +58,7 @@ const CheckOutItem = ({}) => {
                             <Text style={styles.variationText}>Red</Text>
                         </View>
                     </View>
+                    
                     <View style={styles.ratingContainer}>
                         <Text style={styles.ratingText}>4.7</Text>
                         <Rating rating={4.7} />                
@@ -42,16 +67,28 @@ const CheckOutItem = ({}) => {
                     
                     <View style={styles.row}>
                         <View style={styles.priceBox}>
-                            <Text style={styles.price}>$ 20.00</Text>
+                            <Text style={styles.price}>${amount.toFixed(2)}</Text>
                         </View>
                         <View>
                             <Text style={styles.primaryColorText}>upto 33% off  </Text>
-                            <Text style={styles.fadedPrice}>$ 30.00</Text>
+                            <Text style={styles.fadedPrice}>${(amount+100).toFixed(2)}</Text>
                         </View>
 
                     </View>
-                    
+                    <View style={{height:10}}></View>
+                    <View style={styles.row}>
 
+                        <TouchableOpacity style = {styles.iconButton} onPress={() => {increment()}}>
+                            <Icon name='chevron-small-up' size={20} color='#fff' />
+                        </TouchableOpacity>
+
+                        <View style={{width:12}}></View>
+                        <Text style={styles.ratingText}>{quantity}</Text>
+                        <View style={{width:12}}></View>
+                        <TouchableOpacity style = {styles.iconButton} onPress={() => {decrement()}}>
+                        <Icon name='chevron-small-down' size={20} color='#fff' />
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
 
@@ -61,8 +98,8 @@ const CheckOutItem = ({}) => {
             <View style={{height:12}}></View>
 
             <View style={{...styles.row, justifyContent:'space-between'}}>
-                <Text style={styles.title}>Total Order(1)</Text>
-                <Text style={styles.price}>$ 20.00</Text>
+                <Text style={styles.title}>Total Order({quantity})</Text>
+                <Text style={styles.price}>${totalAmount.toFixed(2)}</Text>
                 </View>
 
         </View>
@@ -83,6 +120,7 @@ const styles = StyleSheet.create({
     row:{
         flexDirection: 'row',
         alignItems: 'center',
+        flex:1
     },
     ratingContainer: {
         flexDirection: 'row',
@@ -99,6 +137,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'Montserrat-Bold',
         color: '#000',
+        
+    },
+    productTitle: {
+        fontSize: 16,
+        fontFamily: 'Montserrat-Bold',
+        color: '#000',
+        
+        marginRight:160,
     },
     text: {
         fontSize: 14,
@@ -111,6 +157,19 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         marginRight: 10,
     },
+    iconButton:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
+        //width: "100%",
+        padding:8,
+        //height: 60,
+        borderRadius: 10,
+        
+
+        
+        backgroundColor: primaryColor,
+      },
     price: {
         fontSize: 16,
         fontFamily: 'Montserrat-Bold',
